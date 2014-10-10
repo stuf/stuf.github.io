@@ -12,7 +12,7 @@ more.
 Instead of the usual global console override, I'm using a case-by-case polyfill for undefined
 methods. Internet Explorer 9 is one case that has logging functionality, but not e.g. grouping.
 
-{% hilight javascript %}
+{% highlight javascript %}
 	var
 		noop = function () {},
 		args = [
@@ -30,4 +30,4 @@ methods. Internet Explorer 9 is one case that has logging functionality, but not
 			window.console[arg] = noop;
 		}
 	});
-{% endhilight %}
+{% endhighlight %}
