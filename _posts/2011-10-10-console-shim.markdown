@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "Console shim for crippled browsers"
-date:   2014-10-10 11:15
+date:   2014-10-10 11:15:00
 categories: javascript oldbrowsers
 ---
 I've gotten too used to having the Chrome Console API around, to the point that when doing testing
@@ -10,7 +10,7 @@ for the sake of graceful degradation, keep older browsers chugging along for at 
 more.
 
 Instead of the usual global console override, I'm using a case-by-case polyfill for undefined
-methods. Internet Explorer 9 is one case that has logging funcitonality, but not e.g. grouping.
+methods. Internet Explorer 9 is one case that has logging functionality, but not e.g. grouping.
 
 {% hilight javascript %}
 	var
