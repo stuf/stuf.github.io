@@ -13,21 +13,21 @@ Instead of the usual global console override, I'm using a case-by-case polyfill 
 methods. Internet Explorer 9 is one case that has logging functionality, but not e.g. grouping.
 
 {% highlight javascript %}
-	var
-		noop = function () {},
-		args = [
-			'log', 'info', 'warn', 'error', 'debug', 'trace', 'dir', 'group', 'groupCollapsed',
-			'groupEnd', 'time', 'timeEnd', 'profile', 'profileEnd', 'dirxml', 'assert',
-			'count', 'markTimeline', 'timeStamp', 'clear'
-		];
+var
+  noop = function () {},
+  args = [
+    'log', 'info', 'warn', 'error', 'debug', 'trace', 'dir', 'group', 'groupCollapsed',
+    'groupEnd', 'time', 'timeEnd', 'profile', 'profileEnd', 'dirxml', 'assert',
+    'count', 'markTimeline', 'timeStamp', 'clear'
+  ];
 
-	if (!('console' in window)) {
-		window.console = {};
-	}
+if (!('console' in window)) {
+  window.console = {};
+}
 
-	_.each(args, function (arg) {
-		if (window.console[arg] == null) {
-			window.console[arg] = noop;
-		}
-	});
+_.each(args, function (arg) {
+  if (window.console[arg] == null) {
+    window.console[arg] = noop;
+  }
+});
 {% endhighlight %}
