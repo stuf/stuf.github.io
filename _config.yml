@@ -1,11 +1,11 @@
 # Site settings
-title: I AM CREATING INTERNETS
-email: 
-description: > # this means to ignore newlines until "baseurl:"
+title: Dot
+email: stefan.rimaila@gmail.com 
+description: >
   The musings of a full-time and partly part-time freelance web developer.
   Bad jokes, spaghetti code and many uninteresting things will be posted.
 baseurl: "" # the subpath of your site, e.g. /blog/
-url: "http://stuf.github.io" # the base hostname & protocol for your site
+url: "https://stuf.github.io"
 twitter_username: piparkaq
 github_username:  stuf
 
