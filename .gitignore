@@ -1,1 +1,7 @@
 _site
+
+# Node-related
+node_modules
+npm-debug.log
+
+

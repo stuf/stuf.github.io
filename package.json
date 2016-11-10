@@ -1,0 +1,14 @@
+{
+  "name": "stuf.github.io",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {
+    "url": "git@github.com:stuf/stuf.github.io.git",
+    "type": "git"
+  },
+  "author": "Stefan Rimaila <stefan@rimaila.fi>",
+  "license": "MIT",
+  "devDependencies": {
+    "node-sass": "^3.11.2"
+  }
+}
