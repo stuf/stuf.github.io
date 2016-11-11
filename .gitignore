@@ -1,5 +1,7 @@
 _site
 
+*_old.scss
+
 # Node-related
 node_modules
 npm-debug.log
