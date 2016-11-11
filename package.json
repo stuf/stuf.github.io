@@ -8,5 +8,8 @@
   },
   "author": "Stefan Rimaila <stefan@rimaila.fi>",
   "license": "MIT",
-  "devDependencies": {}
+  "devDependencies": {},
+  "dependencies": {
+    "normalize.css": "^5.0.0"
+  }
 }

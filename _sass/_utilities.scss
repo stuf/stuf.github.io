@@ -1,0 +1,15 @@
+/**
+ * Clearfix
+ */
+%clearfix {
+  &:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+
+%vertical-rhythm {
+  margin-bottom: $spacing-unit / 2;
+}
+
