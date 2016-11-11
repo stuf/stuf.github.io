@@ -6,10 +6,15 @@
     "url": "git@github.com:stuf/stuf.github.io.git",
     "type": "git"
   },
+  "scripts": {
+    "copy:assets": "npm run copy:bootstrap:sass",
+    "copy:bootstrap:sass": "rm -rf _sass/bootstrap && cp -rv ./node_modules/bootstrap/scss _sass/bootstrap"
+  },
   "author": "Stefan Rimaila <stefan@rimaila.fi>",
   "license": "MIT",
   "devDependencies": {},
   "dependencies": {
+    "bootstrap": "4.0.0-alpha.5",
     "normalize.css": "^5.0.0"
   }
 }
