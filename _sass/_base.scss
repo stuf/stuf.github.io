@@ -1,13 +1,13 @@
 
 body {
-  font-family: $base-font-family;
+  font-family: $font-family-base;
   font-size: $base-font-size;
   line-height: $base-line-height;
   color: $text-color;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: 'Lora', monospace;
+  font-family: $font-family-serif;
   font-weight: normal;
 }
 
@@ -15,8 +15,13 @@ h1 {
   margin-bottom: 1rem;
 }
 
-figure.highlight,
-pre.highlight {
-  border: solid 1px #f00;
-  padding: 1rem;
+.post-tags {
+  padding: 0;
+  list-style: none;
+  @include clearfix;
+
+  > li {
+    float: left;
+    padding-right: 0.5rem;
+  }
 }

@@ -2,7 +2,9 @@
 layout: post
 title: "Foray into shell scripting"
 date: 2016-11-15 15:25
-tags: scripting
+tags:
+- scripting
+- bash
 ---
 
 I've been delving into the _wonderful magical world_ of shell scripting the during the past year and a half. During that time, I've been shuffling around some thoughts about how things work (or don't work) in general, and decided that I need to have an outlet for all of this stuff. Generally, I feel quite passionate about technology and the sorts, so it ends up becoming these long rants at inappropriate occasions. I'm not yet at the stage where I would go to a random person in the real world and talk about _the wonderfulness on infix operators in functional programming languages_ (and instead, hey, I'm doing that over the Internet right now), but I'm treading down that path if I don't do this.
