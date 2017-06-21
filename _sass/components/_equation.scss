@@ -1,0 +1,22 @@
+.equation {
+  // border: solid 1px #f00;
+  display: flex;
+  justify-content: space-between;
+  font-family: $font-family-monospace;
+  font-size: 1.25rem;
+
+  &__left,
+  &__right {
+    flex: 1;
+    // border: dashed 1px #00f;
+  }
+
+  &__left {
+    text-align: right;
+  }
+
+  &__eq {
+    // border: dashed 1px #f00;
+    padding: 0 0.4rem;
+  }
+}

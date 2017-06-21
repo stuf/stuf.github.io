@@ -1,11 +1,14 @@
 
 $font-family-monospace: 'Source Code Pro', Menlo, Monaco, monospace;
-$font-family-base: 'Karla', 'SF Display', 'Roboto', sans-serif;
-$font-family-serif: 'Lora', 'Times New Roman', Times, serif;
+// $font-family-base: 'Karla', 'SF Display', 'Roboto', sans-serif;
+// $font-family-serif: 'Lora', 'Times New Roman', Times, serif;
+$font-family-base: Quicksand, 'Times New Roman', serif;
+$font-family-secondary: 'PT Sans', 'Times New Roman', serif;
 
 // Our variables
 $base-font-family: $font-family-base;
-$base-font-size: 10px;
+$base-font-size: 13px;
+$content-font-size: $base-font-size * 1.4;
 $small-font-size: $base-font-size * 0.875;
 $base-line-height: 1.5;
 
@@ -19,11 +22,16 @@ $grey-color:  #828282;
 $grey-color-light: lighten($grey-color, 40%);
 $grey-color-dark:  darken($grey-color, 25%);
 
+$header-background-color: #263238;
+
 $wrapper-width: 900px;
 
 @import 'bootstrap/bootstrap-flex';
 
 @import "utilities", "type", "base", "layout", "syntax-highlighting";
+@import 'layouts/post';
+@import 'components/header';
+@import 'components/equation';
 
 
 

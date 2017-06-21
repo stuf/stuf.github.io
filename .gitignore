@@ -12,3 +12,5 @@ npm-debug.log
 # JetBrains gitignores
 .idea
 *.iml
+
+slides/

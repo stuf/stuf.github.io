@@ -1,4 +1,5 @@
 
+
 body {
   font-family: $font-family-base;
   font-size: $base-font-size;
@@ -7,12 +8,16 @@ body {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: $font-family-serif;
+  // font-family: $font-family-serif;
   font-weight: normal;
 }
 
 h1 {
   margin-bottom: 1rem;
+}
+
+pre, code {
+  // font-size: 1.3em;
 }
 
 .post-tags {
@@ -24,4 +29,17 @@ h1 {
     float: left;
     padding-right: 0.5rem;
   }
+}
+
+.blockquote {
+  // border: solid 1px #f00;
+  border: 0;
+  padding: 2rem 5rem;
+  margin: 3rem -10rem;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.blockquote-footer {
+  text-align: right;
 }

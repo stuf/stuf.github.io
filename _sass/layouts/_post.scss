@@ -1,0 +1,11 @@
+.post {
+  line-height: 1.75;
+}
+
+.post__meta {
+  margin: 2rem 0;
+
+  &-timestamp {
+    font-style: italic;
+  }
+}

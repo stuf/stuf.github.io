@@ -1,0 +1,15 @@
+.post__header {
+  height: 60vh;
+  background-color: $header-background-color;
+  text-align: center;
+  color: #fff;
+  padding: 2.5rem 0;
+  height: 40vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &--heading {
+    font-size: 4rem;
+  }
+}
