@@ -1,6 +1,6 @@
 # Site settings
 title: Dot
-email: stefan.rimaila@gmail.com 
+email: stefan.rimaila@gmail.com
 description: >
   The musings of a full-time and partly part-time freelance web developer.
   Bad jokes, spaghetti code and many uninteresting things will be posted.
@@ -11,3 +11,4 @@ github_username:  stuf
 
 # Build settings
 markdown: kramdown
+permalink: /:collection/:title

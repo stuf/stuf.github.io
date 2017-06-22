@@ -1,46 +1,61 @@
 ---
-layout: post
-title:    "Validating form data in Calmm.js"
-subtitle: "Or: the age-old problem of how do I mark this stuff as invalid???"
-date:     2017-06-21 14:26
+layout:     post
+title:      "Validating form data in Calmm.js"
+subtitle:   "Or: the age-old problem of how do I mark this stuff as invalid???"
+date:       2017-06-21 14:26
 categories: javascript react frp calmm streams
 ---
 
 <blockquote class="blockquote">
   <p>
-    "I have a form with fields. I need to check if the input is valid based on some arbitrary set of rules before letting the user submit it. What library should I use?"
+    I have a form with fields. I need to check if the input is valid based on some arbitrary set of rules before letting the user submit it. What library should I use?
   </p>
   <footer class="blockquote-footer">
     Most likely every web developer ever
   </footer>
 </blockquote>
 
-The problem with form validation is not that it's an inherently difficult thing to do. On the contrary: it's a somewhat trivial problem—in most cases—that is usually solved by approaching the problem from the wrong angle. Add a multitude of different form libraries on top of that, that all promise a simple fix to this problem, but _only if_ the things are done in their way.
+## Preface
+
+The problem with form validation is not that it's an inherently difficult thing to do. On the contrary: it's a somewhat trivial problem—in most cases—that is usually solved by approaching the problem from the wrong angle. Add a multitude of different form libraries on top of that—going from form validation to entire form components—that all promise simple fixes to a problem that a lot of times are a result of some project where it was first used. Usually they enforce the coder to write boilerplate or change how the data is being structured and stored to fit its API.
+
+Form validation continues to be a tricky problem, because rarely any two projects and how they are structured are the same. The [Calmm stack][calmm] provides us with some tooling that help us alleviate this pain and allows us to create simple components that work independently of how the data is structured.
 
 This approach is not the silver bullet you're looking for; the other reason why form validation continues to be a pain in the ass is that very rarely are any forms from project to project the same.
 
-I've had the luck of working more or less full-time using the [Calmm stack](https://github.com/calmm-js) since the beginning of March. It's been a continuous learning process of learning and relearning—and rewriting _tons_ of code. But after the initial stumbles I think that for a lot of validation cases _form validation_ continues to be a problem where the solutions are overengineered.
+I've had the luck of working more or less full-time using the Calmm stack since I started working at [Siili][] the beginning of March in 2017. It's been a continuous learning process of learning, relearning, and rewriting _a lot_ of code.
 
-With that said—what can be done to fix this problem—and maybe even be of some help on the way?
+After stumbling around this problem and having some discussions about it with people I started realizing that a lot of the form validation solutions, in fact, are either overly generic or then overengineered. By keeping the approach to this problem simple, we can write some fairly generic functionality that can be re-used, and even made into a validation-specific [DSL][].
 
-For all of the code examples, assume the following are always imported and in scope:
+Having said that, what can we do to fix this problem?
 
-{% highlight js %}
+## Dependencies and imports
+
+Because this article talks about Calmm, there are a couple of libraries we'll be using.
+
+ - [`karet`][karet] – React with Kefir bindings to allow embedding observables into VDOM—replaces the regular React import in React components
+ - [`karet.util`][karet.util] – collection of really useful utility functions for handling observables
+ - [`partial.lenses`][partial.lenses] – an efficient and highly composable library for viewing and modifying data
+ - [`ramda`][ramda] – the functional utility belt choice, plays well with `karet` and `partial.lenses`
+
+For all of the code examples, assume that the following are always imported:
+
+```js
 import * as React from 'karet';
 import * as U from 'karet.util';
 import * as R from 'ramda';
 import * as L from 'partial.lenses';
-{% endhighlight %}
-
-I'll keep the form simple for now to get this "out there"—and something to expand on in the future.
+```
 
 ## State of the Form
+
+We'll start by creating a simple form with a couple of text fields, that we can use as a base for expanding and extending our functionality.
 
 Let's handle form validation as data that's dependent on some state—it's data that's derived from state that the user wishes to edit, and that's checked on a set of predefined rules.
 
 The way form data is stored is inside an observable `Atom`:
 
-{% highlight jsx %}
+{% highlight javascript %}
 const formState = U.atom({
   inputName: { value: '' },
   anotherInput: { value: '' }
@@ -120,7 +135,24 @@ We've created a lens template that will result in an object the same shape as we
   Give me an object, where the key `inputName` is a view of the path `inputName.value`, which should contain an object with the key `required` if `inputName.value` is falsy.
 </blockquote>
 
-Notice something strange? The conditions in [`L.when`][L.when] are inverse. We're only interested in _invalid data_. This means that the lens will only return data that _matches stuff we don't want_.
+Notice something strange? We're essentially taking the complement of a function that returns `true` for valid input in the case of `L.when`. This means `L.when` will return undefined for valid input, and a focus for the lens otherwise.
+
+Before we put this into the test, let's rewrite it into using some handy ramda functions.
+
+```js
+const validationL = L.pick({
+  inputName: ['inputName', 'value', L.pick({
+    required: L.when(R.complement(R.identity)),
+    mustContainAbc: L.when(R.complement(R.test(/abc/))
+  })],
+  anotherInput: ['anotherInput', 'value', L.pick({
+    required: L.when(R.complement(R.identity)),
+    mustEqualFoo: L.when(R.complement(R.equals('foo')))
+  })]
+});
+```
+
+> *Note that we will explore creating our own DSL for form validation in a later post*
 
 Now, let's put the validation into action:
 
@@ -192,6 +224,14 @@ const SubmitButton = ({ disabled }) =>
 
 ## Field-level validation
 
+[DSL]: https://en.wikipedia.org/wiki/Domain-specific_language
+
+[Siili]: https://www.siili.com
+
+[calmm]: https://github.com/calmm-js
+[ramda]: https://ramdajs.com
+[karet]: https://github.com/calmm-js/karet
+[karet.util]: https://github.com/calmm-js/karet.util
 [partial.lenses]: https://github.com/calmm-js/partial.lenses
 [L.pick]: https://github.com/calmm-js/partial.lenses#L-pick
 [L.when]: https://github.com/calmm-js/partial.lenses#L-when

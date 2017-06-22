@@ -1,5 +1,5 @@
 
-$font-family-monospace: 'Source Code Pro', Menlo, Monaco, monospace;
+$font-family-monospace: 'Overpass Mono', 'Source Code Pro', Menlo, Monaco, monospace;
 // $font-family-base: 'Karla', 'SF Display', 'Roboto', sans-serif;
 // $font-family-serif: 'Lora', 'Times New Roman', Times, serif;
 $font-family-base: Quicksand, 'Times New Roman', serif;
@@ -17,6 +17,9 @@ $spacing-unit: 30px;
 $text-color: rgba(0, 0, 0, .87);
 $background-color: #fdfdfd;
 $brand-color: #2a7ae2;
+
+$default-border-color: rgba(0, 0, 0, .12);
+$default-border: solid 0.2rem rgba(0, 0, 0, .12);
 
 $grey-color:  #828282;
 $grey-color-light: lighten($grey-color, 40%);

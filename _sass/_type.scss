@@ -1,9 +1,11 @@
 
 h1 {
-  
+
 }
 
 h2, h3, h4, h5, h6 {
-  margin-top: 1.5em;
-  margin-bottom: 1.25rem;
+  margin-top: 2.5em;
+  margin-bottom: 2rem;
+  padding-bottom: 2rem;
+  border-bottom: solid 0.1rem $default-border-color;
 }
