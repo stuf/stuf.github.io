@@ -5,13 +5,18 @@
 
 $default-border: solid 0.2rem rgba(0, 0, 0, .12);
 
+code {
+  background-color: transparent;
+}
+
 .highlight {
   @extend %vertical-rhythm;
-  border-top: $default-border;
-  border-bottom: $default-border;
+  border-top: solid 0.1rem $default-border-color;
+  border-bottom: solid 0.1rem $default-border-color;
   background: rgba(255, 255, 255, .88);
-  padding: 2rem;
+  padding: 2rem 1rem;
   margin: 3rem 0;
+  font-size: $base-font-size * 1.2;
 
   > pre {
     margin-bottom: 0;

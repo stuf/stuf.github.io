@@ -91,15 +91,13 @@ Great! Now if we `formState.log()`, we can see that the state is updated with wh
 
 So where do we put the information on the form state's validity? As tempting as it would be as a first thought, would be to add an `isValid` property to each field along with its value, let's not do that. We'll _keep state and any information of the form's validity separate from state_. And because atoms are Kefir observables, we can use all of Kefir's methods on atoms.
 
-The advantage of not storing information about the state's validity in the state itself is to keep unnecessary stuff out of the state itself—and storing validity information about the state in itself is a little bit paradoxical in its own way—is worth asking the question: _does this really belong in the state?_
+The advantage of not storing information about the state's validity in the state itself is to keep unnecessary stuff out of the state itself—and storing validity information about the state in itself is a little bit paradoxical in its own way—is worth asking the question: _does this really belong in the state?_ Because validation is derived from state, it's data we don't need to store in the state—the validation results will be updated whenever the state it's derived from is updated.
 
-As a good rule of thumb is to store only independent data in the state—like our form data; keep dependent data out of the state—like form validation. Because validation depends on state data, it can be derived from it. And this is where lenses come into play.
+Now, let's look into lenses, what they're good for and how we can use them to create the results of the validation.
 
 ## Gaze into the data
 
-If you're not familiar with partial lenses, I urge you to bookmark [polytypic](https://github.com/polytypic)'s superb lens library [`partial.lenses`][partial.lenses]. We'll use it a lot here.
-
-Let's first sketch down just what kind of validation schema we would like:
+If you're not familiar with partial lenses and optics, I strongly recommend you to check out [polytypic](https://github.com/polytypic)'s superb [`partial.lenses`][partial.lenses]. We'll use it a lot here. Let's start by writing down a schema in pseudocode (for illustrative purposes) for what we'd like the validation results to look like.
 
 ```js
 schema = {
@@ -114,10 +112,54 @@ schema = {
 }
 ```
 
-We've specified both fields as `required`, and some field-specific validation conditions; `mustContainAbc` and `mustEqualFoo`. Let's work on some lens magic here by utilising [`L.pick`][L.pick]'s templating and [`L.when`][L.when] for validation.
+We've specified both fields as `required`, and some field-specific validation conditions; `mustContainAbc` and `mustEqualFoo`. Generally speaking, we'd like our validation results to match the following TypeScript signature.
+
+```ts
+type ValidationResult = {
+  [fieldName?: string]: {
+    [validatorResultName?: string]: any
+  }
+};
+```
+
+We can work with some lens magic here through some optics. Let's work on some lens magic here by utilising [`L.pick`][L.pick]'s templating features and [`L.when`][L.when] for validating the user input.
+
+`L.when` is a simple one; it's given a predicate function and if it returns `true`, its view will be whatever data passes that predicate, otherwise its view will be `undefined`. For example:
 
 ```js
-const validationL = L.pick({
+L.collect([L.elems, L.when(x => x < 3)],
+          [1, 2, 3, 4, 5, 6]);
+          // => [1, 2]
+```
+
+`L.pick` allows us to pick and choose from a structure whatever we're interested in and return a simpler structure for us to operate on.
+
+```js
+const data = {
+  foo: 6,
+  bar: {
+    baz: 42
+  },
+  ohai: [1, 2, 3]
+};
+
+L.get(L.pick({
+        foo: 'foo',
+        bar: ['bar', 'baz']
+      }), data);
+      // => { foo: 6, bar: 42 }
+
+L.get(L.pick({
+        foo: ['foo', L.when(x => x === 3)],
+        x: [L.when(x => x.ohai != null), 'bar', 'baz']
+      }), data);
+      // => { x: 42 }
+```
+
+With just these two lenses, we can create a lens that validates our (still simple) form data:
+
+```js
+const validationLens = L.pick({
   inputName: ['inputName', 'value', L.pick({
     required: L.when(x => !x),
     mustContainAbc: L.when(x => !/abc/.test(x))
@@ -135,12 +177,12 @@ We've created a lens template that will result in an object the same shape as we
   Give me an object, where the key `inputName` is a view of the path `inputName.value`, which should contain an object with the key `required` if `inputName.value` is falsy.
 </blockquote>
 
-Notice something strange? We're essentially taking the complement of a function that returns `true` for valid input in the case of `L.when`. This means `L.when` will return undefined for valid input, and a focus for the lens otherwise.
+Notice something strange? We're essentially taking the logical complement—that is turning `true` into `!true`—of a function that returns `true` for valid input in the case of `L.when`. This means `L.when` will return undefined for valid input, and a focus for the lens otherwise.
 
 Before we put this into the test, let's rewrite it into using some handy ramda functions.
 
 ```js
-const validationL = L.pick({
+const validationLens = L.pick({
   inputName: ['inputName', 'value', L.pick({
     required: L.when(R.complement(R.identity)),
     mustContainAbc: L.when(R.complement(R.test(/abc/))
@@ -157,7 +199,7 @@ const validationL = L.pick({
 Now, let's put the validation into action:
 
 ```js
-const validationResult = formState.map(L.get(validationL));
+const validationResult = formState.map(L.get(validationLens));
 ```
 
 That's all that's needed to work the magic.

@@ -45,14 +45,19 @@ pre, code {
 }
 
 
-.page-content a {
-  color: rgba(0, 0, 0, 0.87);
-  box-shadow: inset 0 -0.75em 0 #FFEB3B;
-}
+.page-content {
+  a {
+    color: rgba(0, 0, 0, 0.87);
+    box-shadow: inset 0 -0.75em 0 #FFEB3B;
 
-.page-content li {
-  code {
-    color: inherit;
-    background-color: transparent;
+    &:hover {
+      text-decoration: none;
+      box-shadow: inset 0 -1em 0 #FFEB3B;
+    }
+
+    > code {
+      color: inherit;
+      background-color: transparent;
+    }
   }
 }
